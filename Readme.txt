@@ -12,12 +12,11 @@ url=jdbc:mysql://localhost:3306/hospitaldb
 username=root
 password=root
 
-URLs:
+URLs (GET, POST requets depends on roles applied):
 START = "http://localhost:8080/start";
 LOGIN = "http://localhost:8080/login";
 STOCK = "http://localhost:8080/stock";
 STOCK = "http://localhost:8080/stock/{number}";
-PATIENTS = "http://localhost:8080/patients";
 PATIENTS = "http://localhost:8080/patients";
 FOOD = "http://localhost:8080/food";
 FOOD = "http://localhost:8080/food/{number}";
