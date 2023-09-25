@@ -17,6 +17,8 @@ import java.util.List;
 
 import static com.medical.hospital.diagnostics.interfaces.StartConstants.ROLE_DOCTOR;
 import static com.medical.hospital.diagnostics.interfaces.StartConstants.ROLE_MANAGER;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,14 +29,20 @@ public class MedicineApi {
 
     @GetMapping("/stock")
     @RolesAllowed({ROLE_DOCTOR, ROLE_MANAGER})
-    public List<StockDTO> stockList() {
-        return stockService.getStockList();
+    public ResponseEntity<List<StockDTO>> stockList() {
+        List<StockDTO> listStockDTO =  stockService.getStockList();
+        for (StockDTO stockDTO: listStockDTO) {
+            stockDTO.add(linkTo(methodOn(MedicineApi.class).getStockItemDetails(stockDTO.getId())).withSelfRel());
+        }
+        return ResponseEntity.ok().body(listStockDTO);
     }
 
     @GetMapping("/stock/{id}")
     @RolesAllowed({ROLE_DOCTOR, ROLE_MANAGER})
     public ResponseEntity<StockDTO> getStockItemDetails(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok().body(stockService.getStockItemById(id));
+        StockDTO stockDTO = stockService.getStockItemById(id);
+        stockDTO.add(linkTo(methodOn(MedicineApi.class).getStockItemDetails(id)).withSelfRel());
+        return ResponseEntity.ok().body(stockDTO);
     }
 
     @GetMapping("/patients")
