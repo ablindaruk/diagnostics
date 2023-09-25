@@ -10,12 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
-import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
-
-import static com.medical.hospital.diagnostics.interfaces.StartConstants.*;
-
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +36,7 @@ public class FoodService implements FoodServiceInterface {
         try {
             return foodMapper.foodToDTO(foodsRepo.getById(id));
         } catch (Exception e) {
-            throw new FoodNotFoundException("Invalid food id");
+            throw new FoodNotFoundException("Invalid food item id");
         }
     }
 

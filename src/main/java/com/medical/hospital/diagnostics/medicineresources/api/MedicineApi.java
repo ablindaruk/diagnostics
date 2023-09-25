@@ -47,8 +47,20 @@ public class MedicineApi {
 
     @GetMapping("/patients")
     @RolesAllowed(ROLE_DOCTOR)
-    public List<PatientDTO> patientsList() {
-        return patientService.getPatientsList();
+    public ResponseEntity<List<PatientDTO>> patientsList() {
+        List<PatientDTO> listPatientDTO =  patientService.getPatientsList();
+        for (PatientDTO patientDTO: listPatientDTO) {
+            patientDTO.add(linkTo(methodOn(MedicineApi.class).getPatientItemDetails(patientDTO.getId())).withSelfRel());
+        }
+        return ResponseEntity.ok().body(listPatientDTO);
+    }
+
+    @GetMapping("/patients/{id}")
+    @RolesAllowed({ROLE_DOCTOR})
+    public ResponseEntity<PatientDTO> getPatientItemDetails(@PathVariable("id") Integer id) {
+        PatientDTO patientDTO = patientService.getPatientItemDetails(id);
+        patientDTO.add(linkTo(methodOn(MedicineApi.class).getPatientItemDetails(id)).withSelfRel());
+        return ResponseEntity.ok().body(patientDTO);
     }
 
     @GetMapping("/food")

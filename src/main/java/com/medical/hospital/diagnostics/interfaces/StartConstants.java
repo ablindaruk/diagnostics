@@ -13,7 +13,4 @@ public interface StartConstants {
     String ROLE_MANAGER = "ROLE_MANAGER";
     String ROLE_ADMIN = "ROLE_ADMIN";
     String NO_ROLES = "NO ROLES";
-    String HREF_LEFT = "<a href=\"http://localhost:8080";
-    String HREF_MIDDLE = "\">";
-    String HREF_RIGHT = "</a>";
 }

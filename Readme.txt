@@ -18,5 +18,6 @@ LOGIN = "http://localhost:8080/login";
 STOCK = "http://localhost:8080/stock";
 STOCK = "http://localhost:8080/stock/{number}";
 PATIENTS = "http://localhost:8080/patients";
+PATIENTS = "http://localhost:8080/patients/{number}";
 FOOD = "http://localhost:8080/food";
 FOOD = "http://localhost:8080/food/{number}";

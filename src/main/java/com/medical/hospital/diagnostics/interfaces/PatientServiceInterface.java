@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface PatientServiceInterface {
     List<PatientDTO> getPatientsList();
+    PatientDTO getPatientItemDetails(int id);
     PatientDTO createPatient(PatientDTO patientDTO);
 }
