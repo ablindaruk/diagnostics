@@ -53,14 +53,20 @@ public class MedicineApi {
 
     @GetMapping("/food")
     @RolesAllowed(ROLE_MANAGER)
-    public List<FoodDTO> foodList() {
-        return foodService.getFoodsList();
+    public ResponseEntity<List<FoodDTO>> foodList() {
+        List<FoodDTO> listFoodDTO =  foodService.getFoodsList();
+        for (FoodDTO foodDTO: listFoodDTO) {
+            foodDTO.add(linkTo(methodOn(MedicineApi.class).getFoodDetails(foodDTO.getId())).withSelfRel());
+        }
+        return ResponseEntity.ok().body(listFoodDTO);
     }
 
     @GetMapping("/food/{id}")
     @RolesAllowed(ROLE_MANAGER)
     public ResponseEntity<FoodDTO> getFoodDetails(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok().body(foodService.getFoodItemDetails(id));
+        FoodDTO foodDTO = foodService.getFoodItemDetails(id);
+        foodDTO.add(linkTo(methodOn(MedicineApi.class).getFoodDetails(id)).withSelfRel());
+        return ResponseEntity.ok().body(foodDTO);
     }
 
     @PostMapping("/patients")
@@ -72,6 +78,8 @@ public class MedicineApi {
     @PostMapping("/food")
     @RolesAllowed(ROLE_MANAGER)
     public ResponseEntity<FoodDTO> createFood(@RequestBody @Valid FoodDTO foodDTO) {
-        return ResponseEntity.ok().body(foodService.createFoodItem(foodDTO));
+        FoodDTO savedFoodDTO = foodService.createFoodItem(foodDTO);
+        foodDTO.add(linkTo(methodOn(MedicineApi.class).getFoodDetails(savedFoodDTO.getId())).withSelfRel());
+        return ResponseEntity.ok().body(foodDTO);
     }
 }

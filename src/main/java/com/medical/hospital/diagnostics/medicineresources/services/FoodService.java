@@ -29,9 +29,7 @@ public class FoodService implements FoodServiceInterface {
         List<FoodDTO> listFoodDTO = new LinkedList<>();
         List<Food> listFood = foodsRepo.findAll();
         for (Food food: listFood) {
-            URI foodURI = URI.create("/food/" + food.getId());
             FoodDTO foodDTO = foodMapper.foodToDTO(food);
-            foodDTO.setTitle(HREF_LEFT + foodURI + HREF_MIDDLE + foodDTO.getTitle() + HREF_RIGHT);
             listFoodDTO.add(foodDTO);
         }
         return listFoodDTO;
@@ -50,10 +48,6 @@ public class FoodService implements FoodServiceInterface {
     public FoodDTO createFoodItem(FoodDTO foodDTO) {
         Food newFood = foodMapper.foodDTOToFood(foodDTO);
         Food savedFood = foodsRepo.save(newFood);
-        URI foodURI = URI.create("/food/" + savedFood.getId());
-
-        FoodDTO savedFoodDTO = foodMapper.foodToDTO(savedFood);
-        savedFoodDTO.setTitle(HREF_LEFT + foodURI + HREF_MIDDLE + foodDTO.getTitle() + HREF_RIGHT);
-        return savedFoodDTO;
+        return foodMapper.foodToDTO(savedFood);
     }
 }
