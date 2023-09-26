@@ -31,6 +31,7 @@ public class UserRepositoryTests {
 		assertThat(savedUser.getId()).isGreaterThan(0);
 	}
 
+	/* Set up roles to users */
 	@Test
 	public void testAssignRoleToUser() {
 		Integer userId = 1;

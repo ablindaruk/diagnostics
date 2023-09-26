@@ -84,14 +84,16 @@ public class MedicineApi {
     @PostMapping("/patients")
     @RolesAllowed(ROLE_DOCTOR)
     public ResponseEntity<PatientDTO> createPatient(@RequestBody @Valid PatientDTO patientDTO) {
-        return ResponseEntity.ok().body(patientService.createPatient(patientDTO));
+        PatientDTO savedPatientDTO = patientService.createPatient(patientDTO);
+        savedPatientDTO.add(linkTo(methodOn(MedicineApi.class).getPatientItemDetails(savedPatientDTO.getId())).withSelfRel());
+        return ResponseEntity.ok().body(savedPatientDTO);
     }
 
     @PostMapping("/food")
     @RolesAllowed(ROLE_MANAGER)
     public ResponseEntity<FoodDTO> createFood(@RequestBody @Valid FoodDTO foodDTO) {
         FoodDTO savedFoodDTO = foodService.createFoodItem(foodDTO);
-        foodDTO.add(linkTo(methodOn(MedicineApi.class).getFoodDetails(savedFoodDTO.getId())).withSelfRel());
-        return ResponseEntity.ok().body(foodDTO);
+        savedFoodDTO.add(linkTo(methodOn(MedicineApi.class).getFoodDetails(savedFoodDTO.getId())).withSelfRel());
+        return ResponseEntity.ok().body(savedFoodDTO);
     }
 }

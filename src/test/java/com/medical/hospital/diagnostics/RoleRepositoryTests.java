@@ -18,10 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Rollback(false)
 public class RoleRepositoryTests {
 	@Autowired private RoleRepository repo;
-	
+
+	/* Create roles for the project */
 	@Test
 	public void testCreateRoles() {
-		Role admin = new Role(ROLE_ADMIN);
+		Role admin = new Role(ROLE_ADMIN); //if required
 		Role doctor = new Role(ROLE_DOCTOR);
 		Role manager = new Role(ROLE_MANAGER);
 		repo.saveAll(List.of(admin, doctor, manager));
